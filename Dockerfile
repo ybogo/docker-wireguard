@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:1
 
+FROM amneziavpn/amneziawg-go:0.2.12 as awg
+
 FROM ghcr.io/linuxserver/baseimage-alpine:3.21
 
 # set version label
@@ -48,6 +50,18 @@ RUN \
 
 # add local files
 COPY /root /
+
+ARG AWGTOOLS_RELEASE="1.0.20240213"
+RUN cd /usr/bin/ && \
+    wget https://github.com/amnezia-vpn/amneziawg-tools/releases/download/v${AWGTOOLS_RELEASE}/alpine-3.19-amneziawg-tools.zip && \
+    unzip -j alpine-3.19-amneziawg-tools.zip && \
+    chmod +x /usr/bin/awg /usr/bin/awg-quick && \
+    rm /usr/bin/wg && \
+    rm /usr/bin/wg-quick && \
+    ln -s /usr/bin/awg /usr/bin/wg && \
+    ln -s /usr/bin/awg-quick /usr/bin/wg-quick
+COPY --from=awg /usr/bin/amneziawg-go /usr/bin/amneziawg-go
+RUN mkdir -p /etc/amnezia/amneziawg/
 
 # ports and volumes
 EXPOSE 51820/udp
