@@ -17,6 +17,15 @@ services:
       - ALLOWEDIPS=0.0.0.0/0 #optional
       - PERSISTENTKEEPALIVE_PEERS= #optional
       - LOG_CONFS=true #optional
+      - AWG_Jc=3 #optional
+      - AWG_Jmin=40 #optional
+      - AWG_Jmax=70 #optional
+      - AWG_S1=88 #optional
+      - AWG_S2=28 #optional
+      - AWG_H1=1211620644 #optional
+      - AWG_H2=1243252812 #optional
+      - AWG_H3=973157458 #optional
+      - AWG_H4=1052671299 #optional
     volumes:
       - ./config:/config
       - /lib/modules:/lib/modules #optional
